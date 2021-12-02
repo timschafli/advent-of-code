@@ -1,13 +1,13 @@
 # prompt: https://adventofcode.com/2021/day/2
 
-from ...base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes, answer
 
 # from typing import Tuple
 
 
 class Solution(BaseSolution):
-    year = 2021
-    number = 2
+    _year = 2021
+    _day = 2
     input_type = InputTypes.STRSPLIT
 
     def parseInstruction(inputLine):
@@ -19,6 +19,7 @@ class Solution(BaseSolution):
             "up": {"distance": 0, "depth": distance * -1},
         }[direction]
 
+    @answer(1499229)
     def part_1(self) -> int:
         """
         Tried 150, too low - whoops that was using the example input, which is correct!
@@ -31,6 +32,7 @@ class Solution(BaseSolution):
 
         return depth * distance
 
+    @answer(1340836560)
     def part_2(self) -> int:
         aim = 0
         distance = 0

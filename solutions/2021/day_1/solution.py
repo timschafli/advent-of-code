@@ -1,13 +1,13 @@
 # prompt: https://adventofcode.com/2021/day/1
 
-from ...base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes, answer
 
 from typing import Tuple
 
 
 class Solution(BaseSolution):
-    year = 2021
-    number = 1
+    _year = 2021
+    _day = 1
     input_type = InputTypes.INTSPLIT
 
     def part_1(self) -> int:
@@ -71,7 +71,8 @@ class Solution(BaseSolution):
 
         return [check_depth_increases(depths, 1), check_depth_increases(depths, 3)]
 
-    def solve_c(self) -> Tuple[int, int]:
+    @answer([1559, 1600])
+    def solve(self) -> Tuple[int, int]:
         depths = self.input
 
         def check_depth_increases(depths: list, window_size: int) -> int:
@@ -85,18 +86,19 @@ class Solution(BaseSolution):
 
         return [check_depth_increases(depths, 1), check_depth_increases(depths, 3)]
 
-    def solve(self, maxDepth: int = 0, *args, **kwargs):
-        """
-        Test WIP
-        """
 
-        a = args[0]
-        kwargs["maxDepth"]  # 3
-        depths = self.input
-
-        window_size = 3
-
-        mov_sum = [sum(d) for d in zip(depths, depths[1:], depths[2:])]
-
-        diffs = [dep - dep_os for dep, dep_os in zip(mov_sum[:-1], mov_sum[1:])]
-        return sum(1 for i in diffs if i < 0)
+#    def solve_d(self, maxDepth: int = 0, *args, **kwargs):
+#        """
+#        Test WIP
+#        """
+#
+#        a = args[0]
+#        kwargs["maxDepth"]  # 3
+#        depths = self.input
+#
+#        window_size = 3
+#
+#        mov_sum = [sum(d) for d in zip(depths, depths[1:], depths[2:])]
+#
+#        diffs = [dep - dep_os for dep, dep_os in zip(mov_sum[:-1], mov_sum[1:])]
+#        return sum(1 for i in diffs if i < 0)

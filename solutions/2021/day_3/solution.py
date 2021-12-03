@@ -66,23 +66,21 @@ class Solution(StrSplitSolution):
             return [line for line in input if line[bit_index] == bitToKeep]
 
         bit_index = 0
-        while len(inputOxygen) > 1:
-            inputOxygen = remove_most_or_least_common(
-                deepcopy(inputOxygen),
-                bit_index=bit_index,
-                least_or_most="mostCommon",
-                default_bit="1",
-            )
-            bit_index += 1
-
-        bit_index = 0
-        while len(inputCO2) > 1:
-            inputCO2 = remove_most_or_least_common(
-                deepcopy(inputCO2),
-                bit_index=bit_index,
-                least_or_most="leastCommon",
-                default_bit="0",
-            )
+        while len(inputOxygen) > 1 or len(inputCO2) > 1:
+            if len(inputOxygen) > 1:
+                inputOxygen = remove_most_or_least_common(
+                    deepcopy(inputOxygen),
+                    bit_index=bit_index,
+                    least_or_most="mostCommon",
+                    default_bit="1",
+                )
+            if len(inputCO2) > 1:
+                inputCO2 = remove_most_or_least_common(
+                    deepcopy(inputCO2),
+                    bit_index=bit_index,
+                    least_or_most="leastCommon",
+                    default_bit="0",
+                )
             bit_index += 1
 
         # take the last number / index left in each array, join them into one string,

@@ -40,13 +40,16 @@ class Solution(StrSplitSolution):
     def part_1(self) -> int:
         input = Solution.create_columns(self.input)
         mostCommon, leastCommon, _ = Solution.get_most_least_for_columns(input)
-        gamma_rate, epsilon_rate = ["".join(mostCommon), "".join(leastCommon)]
-        return int(gamma_rate, 2) * int(epsilon_rate, 2)
+        gamma_rate, epsilon_rate = [
+            int("".join(mostCommon), 2),
+            int("".join(leastCommon), 2),
+        ]
+        return gamma_rate * epsilon_rate
 
     @answer(482500)
     def part_2(self) -> int:
-        inputOxygen = Solution.create_columns(self.input)
-        inputCO2 = Solution.create_columns(self.input)
+        o2_input = Solution.create_columns(self.input)
+        co2_input = Solution.create_columns(self.input)
         # find oxygen generator rating
 
         def remove_most_or_least_common(
@@ -65,28 +68,25 @@ class Solution(StrSplitSolution):
                 bitToKeep = default_bit
             return [line for line in input if line[bit_index] == bitToKeep]
 
-        bit_index = 0
-        while len(inputOxygen) > 1 or len(inputCO2) > 1:
-            # repeat until there is only 1 number/line left for each set of conditions
-            if len(inputOxygen) > 1:
-                inputOxygen = remove_most_or_least_common(
-                    deepcopy(inputOxygen),
+        for bit_index in range(len(o2_input)):
+            if len(o2_input) > 1:
+                o2_input = remove_most_or_least_common(
+                    deepcopy(o2_input),
                     bit_index=bit_index,
                     least_or_most="mostCommon",
                     default_bit="1",
                 )
-            if len(inputCO2) > 1:
-                inputCO2 = remove_most_or_least_common(
-                    deepcopy(inputCO2),
+            if len(co2_input) > 1:
+                co2_input = remove_most_or_least_common(
+                    deepcopy(co2_input),
                     bit_index=bit_index,
                     least_or_most="leastCommon",
                     default_bit="0",
                 )
-            bit_index += 1
 
-        # take the last number / index left in each array, join them into one string,
-        # convert that to an int from base 2, and multiply them together for answer
-        return int("".join(inputOxygen[0]), 2) * int("".join(inputCO2[0]), 2)
+        o2_rating = int("".join(o2_input[0]), 2)
+        co2_rating = int("".join(co2_input[0]), 2)
+        return o2_rating * co2_rating
 
     # def solve(self) -> Tuple[int, int]:
     #     pass

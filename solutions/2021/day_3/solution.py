@@ -31,8 +31,8 @@ class Solution(StrSplitSolution):
         for line in commonLines:
             if len(line) == 1:
                 line.append([None, None])
-        mostCommon = [element[0][0] or None for element in commonLines]
-        leastCommon = [element[1][0] or None for element in commonLines]
+        mostCommon = [element[0][0] for element in commonLines]
+        leastCommon = [element[1][0] for element in commonLines]
         equalNumber = [element[0][1] == element[1][1] for element in commonLines]
         return [mostCommon, leastCommon, equalNumber]
 

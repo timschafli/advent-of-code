@@ -29,4 +29,5 @@ To find these,
 
 1. consider just the first bit of each number
 2. use bit critera to remove numbers in the list until only 1 is left - that is the value
-3.
+3. convert two leftover binary numbers to integers
+4. multiply them together for the answer

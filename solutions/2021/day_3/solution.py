@@ -51,10 +51,10 @@ class Solution(StrSplitSolution):
 
         def remove_most_or_least_common(
             input, bit_index: int, least_or_most: str, default_bit: str
-        ):  # remove least common
+        ):
             """
-            Remove lines with least common bit for bit index.
-            Last remaining line = oxygen generator rating
+            Remove lines with either the least or most common bit, or use the
+            default_bit for ties.
             """
             mostCommon, leastCommon, equalNumber = Solution.get_most_least_for_columns(
                 input
@@ -67,6 +67,7 @@ class Solution(StrSplitSolution):
 
         bit_index = 0
         while len(inputOxygen) > 1 or len(inputCO2) > 1:
+            # repeat until there is only 1 number/line left for each set of conditions
             if len(inputOxygen) > 1:
                 inputOxygen = remove_most_or_least_common(
                     deepcopy(inputOxygen),

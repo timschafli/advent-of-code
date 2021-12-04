@@ -44,18 +44,6 @@ class Solution(StrSplitSolution):
                 break
         return winning_board
 
-    def get_next_winning_board(boards, drawn_numbers):
-        board_index = -1
-        for i, board in enumerate(boards):
-            if Solution.numbers_in_board_lines(
-                board, drawn_numbers
-            ) or Solution.numbers_in_board_lines(
-                Solution.get_flipped_board(board), drawn_numbers
-            ):
-                board_index = i
-                break
-        return board_index
-
     def get_sum_unmarked_numbers(board, drawn_numbers):
         all_board_numbers = [item for sublist in board for item in sublist]
         unmarked_board_numbers = [
@@ -94,7 +82,7 @@ class Solution(StrSplitSolution):
             for _ in range(
                 len(boards)
             ):  # need to check for and remove potential multiple winners for each drawn number
-                board_index = Solution.get_next_winning_board(boards, drawn_numbers)
+                board_index = Solution.find_winning_board(boards, drawn_numbers)
                 if board_index > -1:
                     winning_board = boards.pop(board_index)
                     called_numbers_snapshot = copy.deepcopy(drawn_numbers)

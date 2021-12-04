@@ -24,7 +24,7 @@ class Solution(StrSplitSolution):
         return boards
 
     def get_flipped_board(board):
-        return [list(x) for x in zip(board[0], board[1], board[2], board[3], board[4])]
+        return [list(x) for x in zip(*board)]
 
     def numbers_in_board_lines(board, drawn_numbers):
         for line in board:

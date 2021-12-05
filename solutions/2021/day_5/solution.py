@@ -38,6 +38,13 @@ class Solution(StrSplitSolution):
             if coord[ONE][X] == coord[TWO][X] or coord[ONE][Y] == coord[TWO][Y]
         ]
 
+    def only_diagonal_lines(coords):
+        return [
+            coord
+            for coord in coords
+            if not coord[ONE][X] == coord[TWO][X] and not coord[ONE][Y] == coord[TWO][Y]
+        ]
+
     def intialize_map(coords):
         # Need a list of lists the size of the max coordinates
         ocean_map = []
@@ -46,7 +53,7 @@ class Solution(StrSplitSolution):
             ocean_map.append(deepcopy(ocean_map_y))
         return ocean_map
 
-    def get_all_line_coords(lines):
+    def get_all_straight_line_coords(lines):
         lines_with_all_coords = []
 
         for coords in lines:
@@ -55,6 +62,23 @@ class Solution(StrSplitSolution):
             for x in range(coords[ONE][X], coords[TWO][X] + 1):
                 for y in range(coords[ONE][Y], coords[TWO][Y] + 1):
                     line_with_all_coords.append([x, y])
+            lines_with_all_coords.append(line_with_all_coords)
+
+        return lines_with_all_coords
+
+    def get_all_diagonal_line_coords(lines):
+        lines_with_all_coords = []
+
+        for coords in lines:
+            coords.sort()
+            line_with_all_coords = []
+            y = coords[ONE][Y]
+            for x in range(coords[ONE][X], coords[TWO][X] + 1):
+                line_with_all_coords.append([x, y])
+                if coords[ONE][Y] < coords[TWO][Y]:
+                    y += 1
+                else:
+                    y -= 1
             lines_with_all_coords.append(line_with_all_coords)
 
         return lines_with_all_coords
@@ -77,14 +101,21 @@ class Solution(StrSplitSolution):
         lines = Solution.parse_coordinates(self.input)
         straight_lines = Solution.only_straight_lines(lines)
         initial_map = Solution.intialize_map(straight_lines)
-        all_line_coords = Solution.get_all_line_coords(straight_lines)
-        line_map = Solution.add_lines_to_map(initial_map, all_line_coords)
-        # print(line_map)
-        return Solution.count_line_strength(line_map, 2)
+        all_straight_line_coords = Solution.get_all_straight_line_coords(straight_lines)
+        lined_map = Solution.add_lines_to_map(initial_map, all_straight_line_coords)
+        return Solution.count_line_strength(lined_map, 2)
 
-    # @answer(1234)
+    @answer(17717)
     def part_2(self) -> int:
-        pass
+        lines = Solution.parse_coordinates(self.input)
+        straight_lines = Solution.only_straight_lines(lines)
+        diagonal_lines = Solution.only_diagonal_lines(lines)
+        initial_map = Solution.intialize_map(lines)
+        all_straight_line_coords = Solution.get_all_straight_line_coords(straight_lines)
+        all_diagonal_line_coords = Solution.get_all_diagonal_line_coords(diagonal_lines)
+        all_line_coords = all_straight_line_coords + all_diagonal_line_coords
+        lined_map = Solution.add_lines_to_map(initial_map, all_line_coords)
+        return Solution.count_line_strength(lined_map, 2)
 
     # def solve(self) -> Tuple[int, int]:
     #     pass

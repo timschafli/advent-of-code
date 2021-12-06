@@ -3,7 +3,7 @@
 from copy import deepcopy
 from ...base import IntSplitSolution, answer
 
-NEW_FISH = 8  # 8
+NEW_FISH = 8  # 9
 RE_FISH = 6  # 7
 SPAWN_TIME = 0
 
@@ -19,7 +19,7 @@ def create_fish_tracker(input):
 
 def advance_day(current_fish):
     next_fish = deepcopy(current_fish)
-    # 0 becomes a six and an 8
+    # pos 0 added to 6 and as a fresh 8
     spawning_fish = next_fish.pop(SPAWN_TIME)
     next_fish[RE_FISH] += spawning_fish
     next_fish.append(spawning_fish)

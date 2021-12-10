@@ -7,3 +7,4 @@
 ## Part 2
 
 Use sets and subset
+lookup frozenset vs sets

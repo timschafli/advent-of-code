@@ -1,7 +1,7 @@
 # prompt: https://adventofcode.com/2021/day/8
 
 from collections import OrderedDict
-from typing import Tuple
+from typing import List
 from ...base import StrSplitSolution, answer
 
 # from typing import Tuple
@@ -27,47 +27,60 @@ class Solution(StrSplitSolution):
     def part_2(self) -> int:
         total = 0
 
+        def validate(i: List[str]):
+            assert len(i) == 1
+            return i[0]
+
         def get_digit_dict(input):
             digit_dict = {}
             # for k, v in EASY_DIGIT_CONVERSION.items():
             #    input_lens = [len(x) for x in input]
             #    digit_dict[v] = input.pop(input_lens.index(k))
-            print("--")
-            for x in input:
-                print(x)
-            input_sets = [(sorted(x)) for x in input]
-            input_sets = [frozenset(x) for x in input_sets]
-            # print(input_sets)
-            return input_sets
-            input_lens = [len(x) for x in input_sets]
+
+            # 1, 4, 7, 8
             for k, v in EASY_DIGIT_CONVERSION.items():
-                digit_dict[v] = set([x for x in input_sets if len(x) == k])
-            # 1, 4, 6, 7, 8, 9  -- 5(2, 3, 5)
-            print(type(digit_dict[1]), digit_dict[1])
-            digit_dict[6] = [
-                x for x in input_sets if (len(x) == 6) and (len(x - digit_dict[1]) == 5)
-            ][0]
-            # digit_dict[9] = [x for x in input_sets if len(x) == 6 and not digit_dict[6].issubset(x)][0]
-            # small_input = [x for x in input if not set(x).issubset(set)]
-            # digit_dict[3] = [x for x in input if len(x) == 5 and not set(digit_dict[6]).issubset(set(x))][0]
-
-            # digit_dict
-
-            return digit_dict
-
-        one = set()
-        for line in self.input:
-            scrambled_digits = [x for x in line.split(" ") if not x == "|"]
-            # print(scrambled_digits)
-            digit_dict = get_digit_dict(scrambled_digits)
-            one = digit_dict
-            # print(sorted(digit_dict.items()))
-            output_value = (
-                0  # output is the 4 digit number that is trying to be displayed
+                digit_dict[v] = set(validate([x for x in input if len(x) == k]))
+            # 6
+            digit_dict[6] = set(
+                validate(
+                    [x for x in input if len(x) == 6 and not digit_dict[1] < set(x)]
+                )
             )
-            total += output_value
-        print(digit_dict)
-        pass
+            # 3
+            digit_dict[3] = set(
+                validate([x for x in input if len(x) == 5 and digit_dict[1] < set(x)])
+            )
+            not_found = [x for x in input if set(x) not in digit_dict.values()]
 
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+            # 9
+            digit_dict[9] = set(
+                validate(
+                    [x for x in not_found if len(x) == 6 and digit_dict[3] < set(x)]
+                )
+            )
+            # 0
+            digit_dict[0] = set(
+                validate(
+                    [x for x in not_found if len(x) == 6 and set(x) != digit_dict[9]]
+                )
+            )
+            # 5
+            digit_dict[5] = set(
+                validate(
+                    [x for x in not_found if len(x) == 5 and set(x) < digit_dict[9]]
+                )
+            )
+            # 2
+            digit_dict[2] = set(
+                validate(
+                    [x for x in not_found if len(x) == 5 and set(x) != digit_dict[5]]
+                )
+            )
+            return {frozenset(v): str(k) for k, v in digit_dict.items()}
+
+        for line in self.input:
+            signal_patterns, digits = line.split(" | ")
+            digit_dict = get_digit_dict(signal_patterns.split())
+            total += int("".join([digit_dict[frozenset(x)] for x in digits.split()]))
+
+        return total

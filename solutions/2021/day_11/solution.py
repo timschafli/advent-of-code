@@ -57,7 +57,14 @@ class Solution(StrSplitSolution):
 
     # @answer(1234)
     def part_2(self) -> int:
-        pass
+        matrix = get_matrix(self.input)
+        total_flashes = 0
+        step = 0
+        while total_flashes != 100:
+            step += 1
+            matrix, flashes = advance_step(matrix)
+            total_flashes = flashes
+        return step
 
     # def solve(self) -> Tuple[int, int]:
     #     pass

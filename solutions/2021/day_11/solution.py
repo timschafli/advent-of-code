@@ -46,7 +46,7 @@ class Solution(StrSplitSolution):
     _year = 2021
     _day = 11
 
-    # @answer(1594)
+    @answer(1594)
     def part_1(self) -> int:
         matrix = get_matrix(self.input)
         total_flashes = 0
@@ -55,12 +55,12 @@ class Solution(StrSplitSolution):
             total_flashes += flashes
         return total_flashes
 
-    # @answer(1234)
+    @answer(437)
     def part_2(self) -> int:
         matrix = get_matrix(self.input)
         total_flashes = 0
         step = 0
-        while total_flashes != 100:
+        while total_flashes is not 100:
             step += 1
             matrix, flashes = advance_step(matrix)
             total_flashes = flashes

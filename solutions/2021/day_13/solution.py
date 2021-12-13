@@ -32,7 +32,6 @@ class Solution(StrSplitSolution):
     # @answer(745)
     def part_1(self) -> int:
         dots, fold_instructions = parse_input(self.input)
-        print(len(dots))
         for fold in fold_instructions[0:1]:
             max = get_max(fold["axis"], dots)
             assert (
@@ -61,9 +60,48 @@ class Solution(StrSplitSolution):
 
         return len(dots)
 
-    # @answer(1234)
+    # @answer(ABKJFBGC), can't check without OCR. Run program to read characters.
     def part_2(self) -> int:
-        pass
+        dots, fold_instructions = parse_input(self.input)
+        for fold in fold_instructions:
+            max = get_max(fold["axis"], dots)
+            assert (
+                len([dot for dot in dots if dot[AXI[fold["axis"]]] == fold["coord"]])
+                == 0
+            )  # fold lines should never contain dots
+            assert (
+                fold["coord"] < (max // 2) + 1
+            )  # assuming we don't need to fold up past 0
+
+            for dot in copy(dots):
+                if dot[AXI[fold["axis"]]] > fold["coord"]:
+                    new_dot = (0, 0)
+                    if fold["axis"] == "x":
+                        new_dot = (
+                            dot[AXI["x"]] - (dot[AXI["x"]] - fold["coord"]) * 2,
+                            dot[AXI["y"]],
+                        )
+                    if fold["axis"] == "y":
+                        new_dot = (
+                            dot[AXI["x"]],
+                            dot[AXI["y"]] - (dot[AXI["y"]] - fold["coord"]) * 2,
+                        )
+                    dots.add(new_dot)
+                    dots.remove(dot)
+
+        max_x = get_max("x", dots)
+        max_y = get_max("y", dots)
+        lines = ["\n"]
+        for iy in range(max_y + 1):
+            line = ""
+            for ix in range(max_x + 1):
+                if (ix, iy) in dots:
+                    line = "".join((line, "0"))
+                else:
+                    line = "".join((line, " "))
+            lines.append(line)
+
+        return "\n".join(lines)
 
     # def solve(self) -> Tuple[int, int]:
     #     pass

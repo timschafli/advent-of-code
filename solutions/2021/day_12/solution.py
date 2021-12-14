@@ -14,6 +14,13 @@ def get_cave_connections(input):
     return connections
 
 
+def find(lst, key, value):
+    for i, dic in enumerate(lst):
+        if dic[key] == value:
+            return i
+    return -1
+
+
 def last_is_lower_case(input: list):
     return input[-1].islower()
 
@@ -27,9 +34,10 @@ def last_cave_repeats(path: list, max_repeats: int):
 
 
 def last_cave_repeats_2(path: list, max_repeats: int):
-    items = [x.items() for x in path["caves"]]
-    if path["last_cave"] in items:
-        return items[path["last_cave"]] > max_repeats
+    items = [x["count"] for x in path["caves"] if x["cave"] == path["last_cave"]]
+    if len(items) > 0:
+        assert len(items) == 1
+        return sum(items) > max_repeats
     return False
 
 
@@ -117,7 +125,7 @@ class Solution(StrSplitSolution):
                     paths[-1]["last_cave"] = point
                     # print(paths[-1]["caves"])
                     if point in [k.keys() for k in paths[-1]["caves"]]:
-                        paths[-1]["caves"][point[0]] += 1
+                        paths[-1]["caves"][point] += 1
                     else:
                         paths[-1]["caves"].append({point: 1})
                 paths[i]["last_cave"] = next_points[0]

@@ -41,7 +41,7 @@ def get_surrounding_higher_points(low_point, matrix):
     return surrounding_heights
 
 
-def get_basin_size(matrix, low_point):
+def get_basin_size_prev(matrix, low_point):
     basin_points = set()
 
     def recurs(matrix, low_point):
@@ -52,6 +52,29 @@ def get_basin_size(matrix, low_point):
 
     recurs(matrix, low_point)
     return len(basin_points)
+
+
+def get_basin_size_prev_recursive(matrix, point, seen_points):
+    if point in seen_points:
+        return 0
+    seen_points.add(point)
+    surrounding_heights = get_surrounding_higher_points(point, matrix)
+    return (
+        sum([get_basin_size(matrix, x, seen_points) for x in surrounding_heights]) + 1
+    )
+
+
+def get_basin_size(matrix, start_point):
+    points_to_check = [start_point]
+    points_in_basin = set()
+    while points_to_check:
+        next_points_to_check = []
+        for point in points_to_check:
+            points_in_basin.add(point)
+            next_points_to_check += get_surrounding_higher_points(point, matrix)
+        points_to_check = next_points_to_check
+
+    return len(points_in_basin)
 
 
 class Solution(StrSplitSolution):

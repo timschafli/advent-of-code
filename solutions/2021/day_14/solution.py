@@ -26,6 +26,7 @@ class Solution(StrSplitSolution):
     def part_1(self) -> int:
         polymer_template, pair_insertions = parse_input(self.input)
         for i in range(10):
+            print(i)
             # print(i, ":", polymer_template)
             # input()
             polymer_update = ""
@@ -51,7 +52,40 @@ class Solution(StrSplitSolution):
 
     # @answer(1234)
     def part_2(self) -> int:
-        pass
+        polymer_template, pair_insertions = parse_input(self.input)
+        polymer_pairs = []
+        for x in range(1, len(polymer_template)):
+            polymer_pairs.append(polymer_template[x - 1 : x + 1])
+        print(len(polymer_pairs))
+        counted = Counter()
+        for p in polymer_pairs:
+            polymer = p
+            for i in range(40):
+                print(i)
+                # print(i, ":", polymer_template)
+                # input()
+                polymer_update = ""
+                for x in range(0, len(polymer)):
+                    pair = polymer[x : x + 2]
+                    # print(pair)
+                    # input()
+                    if pair in pair_insertions["in"]:
+                        polymer_update = "".join(
+                            [
+                                polymer_update,
+                                pair_insertions["expand"][
+                                    pair_insertions["in"].index(pair)
+                                ],
+                            ]
+                        )
+                    else:
+                        polymer_update = "".join([polymer_update, pair])
+                polymer = polymer_update
+            counted.update(polymer)
+            print(counted)
+            input()
+
+        return counted.most_common()[0][1] - counted.most_common()[-1][1]
 
     # def solve(self) -> Tuple[int, int]:
     #     pass

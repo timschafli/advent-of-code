@@ -10,7 +10,7 @@ class Solution(TextSolution):
     _day = 1
 
     def get_elf_calory_lines(self, calory_text):
-        return [int(elf) for elf in calory_text.split("\n")]
+        return [int(treat) for treat in calory_text.split("\n")]
 
     #
     # @answer(72070)  # @answer(24000)

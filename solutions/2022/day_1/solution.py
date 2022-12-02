@@ -12,8 +12,7 @@ class Solution(TextSolution):
     def get_elf_calory_lines(self, calory_text):
         return [int(treat) for treat in calory_text.split("\n")]
 
-    #
-    # @answer(72070)  # @answer(24000)
+    # @answer(72070)
     # def part_1(self) -> int:
     #
     #     elves = self.input.split("\n\n")

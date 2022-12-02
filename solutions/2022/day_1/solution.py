@@ -2,7 +2,7 @@
 
 from ...base import TextSolution, answer
 
-# from typing import Tuple
+from typing import Tuple
 
 
 class Solution(TextSolution):
@@ -12,15 +12,27 @@ class Solution(TextSolution):
     def get_elf_calory_lines(self, calory_text):
         return [int(elf) for elf in calory_text.split("\n")]
 
-    @answer(72070)  # @answer(24000)
-    def part_1(self) -> int:
+    #
+    # @answer(72070)  # @answer(24000)
+    # def part_1(self) -> int:
+    #
+    #     elves = self.input.split("\n\n")
+    #     return max([sum(self.get_elf_calory_lines(elf)) for elf in elves])
+    #
+    # @answer(211805)
+    # def part_2(self) -> int:
+    #
+    #     elves = self.input.split("\n\n")
+    #     elves_as_ints = [sum(self.get_elf_calory_lines(elf)) for elf in elves]
+    #     sorted_elves = sorted(elves_as_ints, reverse=True)
+    #     print(sorted_elves[:3])
+    #     return sum(sorted_elves[:3])
+
+    # @answer(72070, 211805)
+    def solve(self) -> Tuple[int, int]:
+        elves_p1, elves_p2 = (1, 3)
 
         elves = self.input.split("\n\n")
-        return max([sum(self.get_elf_calory_lines(elf)) for elf in elves])
-
-    # @answer(1234)
-    def part_2(self) -> int:
-        pass
-
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+        elves_as_ints = [sum(self.get_elf_calory_lines(elf)) for elf in elves]
+        sorted_elves = sorted(elves_as_ints, reverse=True)
+        return (sum(sorted_elves[:elves_p1]), sum(sorted_elves[:elves_p2]))

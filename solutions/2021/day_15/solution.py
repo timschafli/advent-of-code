@@ -1,9 +1,18 @@
 # prompt: https://adventofcode.com/2021/day/15
 
-from ...base import TextSolution, answer
+from ...base import StrSplitSolution, answer
+
 # from typing import Tuple
 
-class Solution(TextSolution):
+
+def get_matrix(input):
+    matrix = []
+    for y in input:
+        matrix.append([int(x) for x in y])
+    return matrix
+
+
+class Solution(StrSplitSolution):
     _year = 2021
     _day = 15
 

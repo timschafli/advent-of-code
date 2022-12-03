@@ -46,11 +46,11 @@ def plus(start, add, low_range, upper_range):
 
 
 def round_score_result(moves):
-    if moves[1] == moves[0]:
+    opponent_move, my_move = moves
+    if my_move == opponent_move:
         # draw
         return 3
-    win_move = plus(moves[1], 2, 1, 3)
-    if win_move == moves[0]:
+    if opponent_move == plus(my_move, 2, 1, 3):
         # win
         return 6
     # lose

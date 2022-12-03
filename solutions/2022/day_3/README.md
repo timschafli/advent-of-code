@@ -4,4 +4,8 @@
 
 ## Part 1
 
+Rucksacks need to be repacked
+Each one has 2 large compartments
+All items of a type should go in a specific compartment
+
 ## Part 2

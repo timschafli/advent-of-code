@@ -4,16 +4,17 @@ import re
 from ...base import TextSolution, answer
 
 # from typing import Tuple
-def get_crates(input):
+def get_crate_stacks(input):
     crate_stacks = input.split("\n")
+    # needed extra line at top of input to not lose spaces in first real line
     crate_stacks.pop(0)
-    crate_names = crate_stacks.pop()
+    crate_labels = crate_stacks.pop()
     crate_stacks.reverse()
     crates = {}
 
-    for index, chara in enumerate(crate_names):
-        if not chara == " ":
-            crates[chara] = [
+    for index, crate_label in enumerate(crate_labels):
+        if not crate_label == " ":
+            crates[crate_label] = [
                 crates[index]
                 for crates in crate_stacks
                 if index < len(crates) and not crates[index] == " "
@@ -32,31 +33,37 @@ def get_moves(input):
     return moves
 
 
+def get_top_crate_labels(crate_stacks):
+    return "".join([crates[-1] for crates in crate_stacks.values()])
+
+
 class Solution(TextSolution):
     _year = 2022
     _day = 5
 
-    # @answer('CMZ')
+    @answer("ZWHVFWQWW")
     def part_1(self) -> int:
         crates_input, moves_input = self.input.split("\n\n")
-        crates = get_crates(crates_input)
+        crate_stacks = get_crate_stacks(crates_input)
         moves = get_moves(moves_input)
 
         for move in moves:
             crate_moves = int(move["move"])
             while crate_moves:
-                crates[move["to"]].append(crates[move["from"]].pop())
+                crate_stacks[move["to"]].append(crate_stacks[move["from"]].pop())
                 crate_moves -= 1
 
-        top_letters = ""
-        for v in crates.values():
-            top_letters += v[-1]
+        return get_top_crate_labels(crate_stacks)
 
-        return top_letters
-
-    # @answer(1234)
+    @answer("HZFZCCWWV")
     def part_2(self) -> int:
-        pass
+        crates_input, moves_input = self.input.split("\n\n")
+        crate_stacks = get_crate_stacks(crates_input)
+        moves = get_moves(moves_input)
 
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+        for move in moves:
+            crate_moves = int(move["move"]) * -1
+            crate_stacks[move["to"]].extend(crate_stacks[move["from"]][crate_moves:])
+            del crate_stacks[move["from"]][crate_moves:]
+
+        return get_top_crate_labels(crate_stacks)

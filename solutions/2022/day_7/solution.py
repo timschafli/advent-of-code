@@ -1,10 +1,7 @@
 # prompt: https://adventofcode.com/2022/day/7
 
-# from typing import Dict
 from collections import deque
 from ...base import StrSplitSolution, answer
-
-# from typing import Tuple
 
 
 def remove_nested_keys(dictionary, remove_keys):
@@ -56,7 +53,6 @@ def get_file_system(input):
     }
 
     current_dir = file_system
-    print(f"starting dir: {current_dir}")
 
     console_lines = deque(input)
     while len(console_lines):
@@ -65,18 +61,15 @@ def get_file_system(input):
 
         if "cd" in line:
             go_dir = line[5:]
-            # print(f"{line} ---> {go_dir}")
             if "/" in go_dir:
                 current_dir = file_system
             elif ".." in go_dir:
                 current_dir = current_dir["prev"]
             else:
-                # print(current_dir)
                 dirs = [
                     {dir["name"]: index}
                     for index, dir in enumerate(current_dir["contents"])
                 ]
-                print(dirs)
                 if go_dir in dirs:
                     current_dir = current_dir["contents"][dirs[go_dir]]
                 else:
@@ -89,7 +82,6 @@ def get_file_system(input):
                     }
                     current_dir["contents"].append(new_dir)
                     current_dir = new_dir
-            print(f"{line} -> {current_dir}")
 
         if "ls" in line:
             while len(console_lines) and not "$" in console_lines[0]:
@@ -115,18 +107,22 @@ class Solution(StrSplitSolution):
     _year = 2022
     _day = 7
 
-    # @answer(95437)
+    @answer(1723892)
     def part_1(self) -> int:
         file_system = get_file_system(self.input)
-        print()
-        print(file_system)
-        print()
-        print(get_all_dir_sizes(file_system, 100000))
         return sum(get_all_dir_sizes(file_system, 100000))
 
-    # @answer(1234)
+    @answer(8474158)
     def part_2(self) -> int:
-        pass
+        file_system = get_file_system(self.input)
+        total_space = 70000000
+        free_space_needed = 30000000
 
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+        current_free_space = total_space - get_dir_size(file_system)
+        space_to_free = free_space_needed - current_free_space
+
+        list_of_dir_sizes = get_all_dir_sizes(file_system, 70000000)
+        list_of_dir_sizes.append(space_to_free)
+        list_of_dir_sizes.sort()
+
+        return list_of_dir_sizes[list_of_dir_sizes.index(space_to_free) + 1]

@@ -8,6 +8,8 @@ class TreeMatrix:
         self._trees = [[int(t) for t in text_line] for text_line in text_grid]
         self._x_edges = (0, len(self._trees[0]) - 1)
         self._y_edges = (0, len(self._trees) - 1)
+        self.x_tree_lines = [self.get_x_tree_line(y) for y in range(self._y_edges[1])]
+        self.y_tree_lines = [self.get_y_tree_line(x) for x in range(self._x_edges[1])]
 
     def get_tree(self, x, y):
         return self._trees[y][x]
@@ -37,8 +39,8 @@ class TreeMatrix:
         return best_score
 
     def get_scenic_score_for_tree(self, x, y, height):
-        x_tree_line = self.get_x_tree_line(y)
-        y_tree_line = self.get_y_tree_line(x)
+        x_tree_line = self.x_tree_lines[y]
+        y_tree_line = self.y_tree_lines[x]
         x_left = list(reversed(x_tree_line[:x]))
         x_right = x_tree_line[x + 1 :] if x < self._x_edges[1] else []
         y_up = list(reversed(y_tree_line[:y]))
@@ -51,8 +53,8 @@ class TreeMatrix:
         )
 
     def is_tree_visible(self, x, y, height):
-        x_tree_line = self.get_x_tree_line(y)
-        y_tree_line = self.get_y_tree_line(x)
+        x_tree_line = self.x_tree_lines[y]
+        y_tree_line = self.y_tree_lines[x]
 
         if (
             max(x_tree_line[:x]) < height

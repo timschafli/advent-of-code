@@ -104,3 +104,4 @@ venv.bak/
 .mypy_cache/
 
 # End of https://www.gitignore.io/api/python
+solutions\/\d\d\d\d\/day_\d+\/input\.txt
